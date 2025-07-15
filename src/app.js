@@ -1,43 +1,14 @@
 const express = require("express");
+const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
-const app = express();
 const prisma = new PrismaClient();
-
+const app = express();
+app.use(cors());
 app.use(express.json());
 
-// Criar um usuário
-app.post("/usuarios", async (req, res) => {
-  const { nome, email, senha, avatar, cargo, setor, tarefas, tags, obs } =
-    req.body;
-
-  try {
-    const novoUsuario = await prisma.usuario.create({
-      data: {
-        nome,
-        email,
-        senha,
-        avatar,
-        cargo,
-        setor,
-        tarefas,
-        tags,
-        obs,
-      },
-    });
-    res.status(201).json(novoUsuario);
-  } catch (error) {
-    if (error.code === "P2002") {
-      // erro de unique constraint (email)
-      res.status(400).json({ error: "Email já está em uso." });
-    } else {
-      res.status(500).json({ error: "Erro ao criar usuário." });
-    }
-  }
-});
-
 app.get("/", (req, res) => {
-  res.send("API rodando!");
+  res.send("🚀 O Mago é implacável!");
 });
 
 // Listar todos os usuários
@@ -45,84 +16,63 @@ app.get("/usuarios", async (req, res) => {
   try {
     const usuarios = await prisma.usuario.findMany();
     res.json(usuarios);
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ error: "Erro ao buscar usuários." });
   }
 });
 
-// Buscar um usuário pelo id
-app.get("/usuarios/:id", async (req, res) => {
-  const { id } = req.params;
+// Criar novo usuário
+app.post("/usuarios", async (req, res) => {
+  const { nome, email, senha, avatar, cargo, setor } = req.body;
+  try {
+    const novoUsuario = await prisma.usuario.create({
+      data: { nome, email, senha, avatar, cargo, setor },
+    });
+    res.status(201).json(novoUsuario);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao criar usuário." });
+  }
+});
 
+// Buscar usuário por ID
+app.get("/usuarios/:id", async (req, res) => {
   try {
     const usuario = await prisma.usuario.findUnique({
-      where: { id },
+      where: { id: req.params.id },
     });
-
-    if (!usuario) {
+    if (!usuario)
       return res.status(404).json({ error: "Usuário não encontrado." });
-    }
-
     res.json(usuario);
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ error: "Erro ao buscar usuário." });
   }
 });
 
-// Atualizar usuário pelo id
+// Atualizar usuário por ID
 app.put("/usuarios/:id", async (req, res) => {
-  const { id } = req.params;
-  const { nome, email, senha, avatar, cargo, setor, tarefas, tags, obs } =
-    req.body;
-
+  const { nome, email, senha, avatar, cargo, setor } = req.body;
   try {
     const usuarioAtualizado = await prisma.usuario.update({
-      where: { id },
-      data: {
-        nome,
-        email,
-        senha,
-        avatar,
-        cargo,
-        setor,
-        tarefas,
-        tags,
-        obs,
-      },
+      where: { id: req.params.id },
+      data: { nome, email, senha, avatar, cargo, setor },
     });
     res.json(usuarioAtualizado);
-  } catch (error) {
-    if (error.code === "P2025") {
-      // registro não encontrado
-      res.status(404).json({ error: "Usuário não encontrado para atualizar." });
-    } else if (error.code === "P2002") {
-      // unique constraint email
-      res.status(400).json({ error: "Email já está em uso." });
-    } else {
-      res.status(500).json({ error: "Erro ao atualizar usuário." });
-    }
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao atualizar usuário." });
   }
 });
 
-// Deletar usuário pelo id
+// Deletar usuário por ID
 app.delete("/usuarios/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
-    await prisma.usuario.delete({
-      where: { id },
-    });
+    await prisma.usuario.delete({ where: { id: req.params.id } });
     res.json({ message: "Usuário deletado com sucesso." });
-  } catch (error) {
-    if (error.code === "P2025") {
-      res.status(404).json({ error: "Usuário não encontrado para deletar." });
-    } else {
-      res.status(500).json({ error: "Erro ao deletar usuário." });
-    }
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao deletar usuário." });
   }
 });
 
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+// Iniciar servidor
+app.listen(3001, () => {
+  console.log("Servidor rodando em http://localhost:3001");
 });
