@@ -41,6 +41,7 @@ model Cliente {
 
 model Servico {
   id                     String     @id @default(auto()) @map("_id") @db.ObjectId
+nome  String?
 
   clienteId              String     @db.ObjectId
   cliente                Cliente    @relation(fields: [clienteId], references: [id])

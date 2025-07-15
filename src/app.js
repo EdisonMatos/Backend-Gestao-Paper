@@ -6,7 +6,14 @@ app.use(cors());
 app.use(express.json());
 
 const usuariosRouter = require("./modulos/usuarios");
+const clientesRouter = require("./modulos/clientes");
+const servicosRouter = require("./modulos/servicos");
+const comentariosRouter = require("./modulos/comentarios");
+
 app.use("/usuarios", usuariosRouter);
+app.use("/clientes", clientesRouter);
+app.use("/servicos", servicosRouter);
+app.use("/comentarios", comentariosRouter);
 
 app.get("/", (req, res) => {
   res.send("🚀 O Mago é implacável!");
