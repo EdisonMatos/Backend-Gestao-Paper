@@ -17,6 +17,7 @@ app.get("/usuarios", async (req, res) => {
     const usuarios = await prisma.usuario.findMany();
     res.json(usuarios);
   } catch (err) {
+    console.error("Erro ao buscar usuários:", err); // 👈 isso vai mostrar o erro real no terminal
     res.status(500).json({ error: "Erro ao buscar usuários." });
   }
 });
