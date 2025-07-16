@@ -5,7 +5,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://under-timer-front.vercel.app",
+  "https://front-gestao-paper.vercel.app",
 ];
 
 app.use(
