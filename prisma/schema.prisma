@@ -57,6 +57,7 @@ nome  String?
 
   linkDoc                String?
   linkPreviaVercel       String?
+  linkRepoGithub String?
   turnoDaVez             String?
   comentariosTexto       String?
 
