@@ -8,79 +8,82 @@ datasource db {
 }
 
 model Usuario {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  nome      String
-  email     String   @unique
-  senha     String
-  avatar    String?
-  cargo     String?
-  setor     String?
-  tarefas   String?  @default("sem tarefas")
-  tags      String?  @default("sem tags")
-  obs       String?  @default("sem observações")
+  nome    String
+  email   String  @unique
+  senha   String
+  avatar  String?
+  cargo   String?
+  setor   String?
+  tarefas String? @default("sem tarefas")
+  tags    String? @default("sem tags")
+  obs     String? @default("sem observações")
 
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 }
 
 model Cliente {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  empresa        String
-  representante  String
-  telefone       String
-  email          String
-  dominio        String
+  empresa       String
+  representante String
+  telefone      String
+  email         String
+  dominio       String
 
-  servicos       Servico[]
+  servicos Servico[]
 
-  criadoEm       DateTime @default(now())
-  atualizadoEm   DateTime @updatedAt
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
 }
 
 model Servico {
-  id                     String     @id @default(auto()) @map("_id") @db.ObjectId
-nome  String?
+  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  nome String?
 
-  clienteId              String     @db.ObjectId
-  cliente                Cliente    @relation(fields: [clienteId], references: [id])
+  clienteId String  @db.ObjectId
+  cliente   Cliente @relation(fields: [clienteId], references: [id])
 
-  dataContratacao        DateTime
-  dataInfosColetadas     DateTime?
-  dataDocPronto          DateTime?
-  dataEnvioPrevia        DateTime?
-  dataConclusao          DateTime?
-  dataProximoPrazo       DateTime?
+  status             String?
+  statusAtualizadoEm DateTime?
+
+  dataContratacao    DateTime
+  dataInfosColetadas DateTime?
+  dataDocPronto      DateTime?
+  dataEnvioPrevia    DateTime?
+  dataConclusao      DateTime?
+  dataProximoPrazo   DateTime?
 
   posicaoNoQuadro String?
 
-  linkDoc                String?
-  linkPreviaVercel       String?
-  linkRepoGithub String?
-  turnoDaVez             String?
-  comentariosTexto       String?
+  linkDoc          String?
+  linkPreviaVercel String?
+  linkRepoGithub   String?
+  turnoDaVez       String?
+  comentariosTexto String?
 
-  deuFeedbackSite        Boolean?   @default(false)
-  feedbackSitePostado    Boolean?   @default(false)
-  deuFeedbackGoogle      Boolean?   @default(false)
-  feedbackGooglePostado  Boolean?   @default(false)
+  deuFeedbackSite       Boolean? @default(false)
+  feedbackSitePostado   Boolean? @default(false)
+  deuFeedbackGoogle     Boolean? @default(false)
+  feedbackGooglePostado Boolean? @default(false)
 
-  comentarios            Comentario[]
+  comentarios Comentario[]
 
-  criadoEm               DateTime   @default(now())
-  atualizadoEm           DateTime   @updatedAt
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
 }
 
 model Comentario {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  servicoId  String   @db.ObjectId
-  servico    Servico  @relation(fields: [servicoId], references: [id])
+  servicoId String  @db.ObjectId
+  servico   Servico @relation(fields: [servicoId], references: [id])
 
-  feitoPor   String
-  setor      String
-  texto      String
+  feitoPor String
+  setor    String
+  texto    String
 
-  criadoEm   DateTime @default(now())
+  criadoEm DateTime @default(now())
 }

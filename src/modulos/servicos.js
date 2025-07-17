@@ -48,6 +48,8 @@ router.post("/", async (req, res) => {
   const {
     nome,
     clienteId,
+    status,
+    statusAtualizadoEm,
     dataContratacao,
     dataInfosColetadas,
     dataDocPronto,
@@ -77,6 +79,8 @@ router.post("/", async (req, res) => {
       data: {
         nome,
         clienteId,
+        status,
+        statusAtualizadoEm,
         dataContratacao: new Date(dataContratacao),
         dataInfosColetadas: dataInfosColetadas
           ? new Date(dataInfosColetadas)
@@ -111,6 +115,8 @@ router.put("/:id", async (req, res) => {
   const {
     nome,
     clienteId,
+    status,
+    statusAtualizadoEm,
     dataContratacao,
     dataInfosColetadas,
     dataDocPronto,
@@ -140,6 +146,8 @@ router.put("/:id", async (req, res) => {
       data: {
         nome,
         clienteId,
+        status,
+        statusAtualizadoEm,
         dataContratacao: dataContratacao
           ? new Date(dataContratacao)
           : servicoExistente.dataContratacao,
