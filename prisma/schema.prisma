@@ -55,6 +55,7 @@ model Servico {
   dataEnvioPrevia    DateTime?
   dataConclusao      DateTime?
   dataProximoPrazo   DateTime?
+  complexidade String?
 
   posicaoNoQuadro String?
 
