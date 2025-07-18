@@ -66,6 +66,7 @@ router.post("/", async (req, res) => {
     deuFeedbackGoogle,
     posicaoNoQuadro,
     complexidade,
+    ordemVerticalNoQuadro,
     feedbackGooglePostado,
   } = req.body;
 
@@ -100,6 +101,7 @@ router.post("/", async (req, res) => {
         deuFeedbackGoogle,
         posicaoNoQuadro,
         complexidade,
+        ordemVerticalNoQuadro,
         feedbackGooglePostado,
       },
     });
@@ -135,6 +137,7 @@ router.put("/:id", async (req, res) => {
     deuFeedbackGoogle,
     posicaoNoQuadro,
     complexidade,
+    ordemVerticalNoQuadro,
     feedbackGooglePostado,
   } = req.body;
 
@@ -179,6 +182,7 @@ router.put("/:id", async (req, res) => {
         deuFeedbackGoogle,
         posicaoNoQuadro,
         complexidade,
+        ordemVerticalNoQuadro,
         feedbackGooglePostado,
       },
     });

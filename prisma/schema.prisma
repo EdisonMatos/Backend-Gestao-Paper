@@ -58,6 +58,7 @@ model Servico {
   complexidade Float?
 
   posicaoNoQuadro String?
+  ordemVerticalNoQuadro Float?
 
   linkDoc          String?
   linkPreviaVercel String?
