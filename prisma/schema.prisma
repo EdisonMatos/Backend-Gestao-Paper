@@ -89,3 +89,19 @@ model Comentario {
 
   criadoEm DateTime @default(now())
 }
+
+model Rotina {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome         String
+  descricao    String
+  status       String
+  complexidade Float
+  horario      String
+  janela       Float
+  conclusao    DateTime?
+  diaDaSemana  String
+  setor        String
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
