@@ -6,14 +6,17 @@ const prisma = new PrismaClient();
 // Listar todas as rotinas
 router.get("/", async (req, res) => {
   try {
-    const rotinas = await prisma.rotina.findMany();
+    const rotinas = await prisma.rotina.findMany({
+      include: {
+        registros: true,
+      },
+    });
     res.json(rotinas);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao buscar rotinas" });
   }
 });
-
 // Buscar rotina por id
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
