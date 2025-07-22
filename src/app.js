@@ -26,6 +26,7 @@ const clientesRouter = require("./modulos/clientes");
 const servicosRouter = require("./modulos/servicos");
 const comentariosRouter = require("./modulos/comentarios");
 const rotinasRouter = require("./modulos/rotinas");
+const registrosRouter = require("./modulos/registros");
 
 app.use(express.json());
 app.use("/usuarios", usuariosRouter);
@@ -33,9 +34,10 @@ app.use("/clientes", clientesRouter);
 app.use("/servicos", servicosRouter);
 app.use("/comentarios", comentariosRouter);
 app.use("/rotinas", rotinasRouter);
+app.use("/registros", registrosRouter);
 
 app.get("/", (req, res) => {
-  res.send("🚀 O Mago é implacável!");
+  res.send("🚀");
 });
 
 app.listen(3001, () => {

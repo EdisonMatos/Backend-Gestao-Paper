@@ -55,6 +55,7 @@ model Servico {
   dataEnvioPrevia    DateTime?
   dataConclusao      DateTime?
   dataProximoPrazo   DateTime?
+  dataPrazoProjeto DateTime?
   complexidade Float?
 
   posicaoNoQuadro String?
@@ -91,7 +92,7 @@ model Comentario {
 }
 
 model Rotina {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
   nome         String
   descricao    String
   status       String
@@ -102,6 +103,21 @@ model Rotina {
   diaDaSemana  String
   setor        String
 
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @updatedAt
+  criadoEm     DateTime         @default(now())
+  atualizadoEm DateTime         @updatedAt
+
+  registros    RegistroRotina[] 
 }
+
+model RegistroRotina {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  dataConclusao DateTime
+  comentario    String
+  feitoPor      String
+
+  rotinaId      String   @db.ObjectId
+  rotina        Rotina   @relation(fields: [rotinaId], references: [id])
+
+  criadoEm      DateTime @default(now())
+}
+

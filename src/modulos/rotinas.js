@@ -18,7 +18,12 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const rotina = await prisma.rotina.findUnique({ where: { id } });
+    const rotina = await prisma.rotina.findUnique({
+      where: { id },
+      include: {
+        registros: true,
+      },
+    });
     if (!rotina) {
       return res.status(404).json({ error: "Rotina não encontrada" });
     }
