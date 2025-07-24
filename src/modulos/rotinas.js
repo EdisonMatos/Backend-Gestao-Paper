@@ -18,22 +18,25 @@ router.get("/", async (req, res) => {
   }
 });
 // Buscar rotina por id
-router.get("/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
-    const rotina = await prisma.rotina.findUnique({
-      where: { id },
-      include: {
-        registros: true,
-      },
-    });
-    if (!rotina) {
+    const rotinaExistente = await prisma.rotina.findUnique({ where: { id } });
+    if (!rotinaExistente) {
       return res.status(404).json({ error: "Rotina não encontrada" });
     }
-    res.json(rotina);
+
+    // Primeiro, exclui registros associados
+    await prisma.registroRotina.deleteMany({ where: { rotinaId: id } });
+
+    // Agora exclui a rotina
+    await prisma.rotina.delete({ where: { id } });
+
+    res.json({ message: "Rotina removida com sucesso" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erro ao buscar rotina" });
+    console.error("Erro ao deletar rotina:", error);
+    res.status(500).json({ error: "Erro ao deletar rotina" });
   }
 });
 
