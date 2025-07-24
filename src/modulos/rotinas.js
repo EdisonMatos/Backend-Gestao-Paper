@@ -49,7 +49,6 @@ router.post("/", async (req, res) => {
     complexidade,
     horario,
     janela,
-    conclusao,
     diaDaSemana,
     setor,
   } = req.body;
@@ -76,7 +75,6 @@ router.post("/", async (req, res) => {
         complexidade,
         horario,
         janela,
-        conclusao: new Date(conclusao),
         diaDaSemana,
         setor,
       },
