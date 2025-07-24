@@ -61,7 +61,6 @@ router.post("/", async (req, res) => {
     complexidade === undefined ||
     !horario ||
     janela === undefined ||
-    !conclusao ||
     !diaDaSemana ||
     !setor
   ) {
