@@ -157,24 +157,42 @@ router.put("/:id", async (req, res) => {
         clienteId,
         status,
         statusAtualizadoEm,
-        dataContratacao: dataContratacao
-          ? new Date(dataContratacao)
-          : servicoExistente.dataContratacao,
-        dataInfosColetadas: dataInfosColetadas
-          ? new Date(dataInfosColetadas)
-          : servicoExistente.dataInfosColetadas,
-        dataDocPronto: dataDocPronto
-          ? new Date(dataDocPronto)
-          : servicoExistente.dataDocPronto,
-        dataEnvioPrevia: dataEnvioPrevia
-          ? new Date(dataEnvioPrevia)
-          : servicoExistente.dataEnvioPrevia,
-        dataConclusao: dataConclusao
-          ? new Date(dataConclusao)
-          : servicoExistente.dataConclusao,
-        dataProximoPrazo: dataProximoPrazo
-          ? new Date(dataProximoPrazo)
-          : servicoExistente.dataProximoPrazo,
+        dataContratacao:
+          dataContratacao === null
+            ? null
+            : dataContratacao
+            ? new Date(dataContratacao)
+            : servicoExistente.dataContratacao,
+        dataInfosColetadas:
+          dataInfosColetadas === null
+            ? null
+            : dataInfosColetadas
+            ? new Date(dataInfosColetadas)
+            : servicoExistente.dataInfosColetadas,
+        dataDocPronto:
+          dataDocPronto === null
+            ? null
+            : dataDocPronto
+            ? new Date(dataDocPronto)
+            : servicoExistente.dataDocPronto,
+        dataEnvioPrevia:
+          dataEnvioPrevia === null
+            ? null
+            : dataEnvioPrevia
+            ? new Date(dataEnvioPrevia)
+            : servicoExistente.dataEnvioPrevia,
+        dataConclusao:
+          dataConclusao === null
+            ? null
+            : dataConclusao
+            ? new Date(dataConclusao)
+            : servicoExistente.dataConclusao,
+        dataProximoPrazo:
+          dataProximoPrazo === null
+            ? null
+            : dataProximoPrazo
+            ? new Date(dataProximoPrazo)
+            : servicoExistente.dataProximoPrazo,
         linkDoc,
         linkPreviaVercel,
         linkRepoGithub,
@@ -186,7 +204,12 @@ router.put("/:id", async (req, res) => {
         posicaoNoQuadro,
         complexidade,
         ordemVerticalNoQuadro,
-        dataPrazoProjeto,
+        dataPrazoProjeto:
+          dataPrazoProjeto === null
+            ? null
+            : dataPrazoProjeto
+            ? new Date(dataPrazoProjeto)
+            : servicoExistente.dataPrazoProjeto,
         feedbackGooglePostado,
       },
     });
