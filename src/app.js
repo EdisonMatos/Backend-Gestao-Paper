@@ -27,8 +27,11 @@ const servicosRouter = require("./modulos/servicos");
 const comentariosRouter = require("./modulos/comentarios");
 const rotinasRouter = require("./modulos/rotinas");
 const registrosRouter = require("./modulos/registros");
+const authRouter = require("./auth");
 
 app.use(express.json());
+
+app.use("/login", authRouter);
 app.use("/usuarios", usuariosRouter);
 app.use("/clientes", clientesRouter);
 app.use("/servicos", servicosRouter);
