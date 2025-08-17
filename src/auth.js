@@ -8,7 +8,7 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "segredo-muito-seguro";
 
 // ROTA ÚNICA DE LOGIN PARA USUÁRIOS (modelo Usuario)
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   const { email, senha } = req.body;
 
   try {
