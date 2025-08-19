@@ -3,23 +3,39 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Contagem de serviços por setor (turnoDaVez)
 router.get("/counts", async (req, res) => {
   try {
-    const counts = await prisma.servico.groupBy({
-      by: ["turnoDaVez"],
+    // Pegar todos os serviços que são null ou backlog
+    const servicos = await prisma.servico.findMany({
       where: {
         OR: [{ posicaoNoQuadro: null }, { posicaoNoQuadro: "backlog" }],
       },
-      _count: {
-        _all: true,
+      select: {
+        turnoDaVez: true,
       },
     });
 
-    // Resposta no formato { suporte: 3, comercial: 1, financeiro: 2 }
+    // Agrupar manualmente por turnoDaVez
     const result = {};
-    counts.forEach((item) => {
-      result[item.turnoDaVez] = item._count._all;
+    servicos.forEach((s) => {
+      if (!result[s.turnoDaVez]) {
+        result[s.turnoDaVez] = 0;
+      }
+      result[s.turnoDaVez]++;
+    });
+
+    // Se quiser, garante que setores conhecidos apareçam mesmo com 0
+    const setores = [
+      "dev",
+      "socialmedia",
+      "suporte",
+      "financeiro",
+      "diretoria",
+    ];
+    setores.forEach((setor) => {
+      if (!(setor in result)) {
+        result[setor] = 0;
+      }
     });
 
     res.json(result);
@@ -126,7 +142,8 @@ router.post("/", async (req, res) => {
         deuFeedbackSite,
         feedbackSitePostado,
         deuFeedbackGoogle,
-        posicaoNoQuadro,
+        // Aqui garantimos que o campo sempre exista
+        posicaoNoQuadro: posicaoNoQuadro ?? null,
         complexidade,
         ordemVerticalNoQuadro,
         dataPrazoProjeto,
