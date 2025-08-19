@@ -31,6 +31,47 @@ router.get("/counts", async (req, res) => {
   }
 });
 
+router.get("/kanban", async (req, res) => {
+  const { turno } = req.query;
+
+  if (!turno) {
+    return res.status(400).json({ error: "O parâmetro 'turno' é obrigatório" });
+  }
+
+  try {
+    // Buscar apenas serviços do turno
+    const servicos = await prisma.servico.findMany({
+      where: { turnoDaVez: turno },
+      include: {
+        cliente: true,
+        comentarios: true,
+      },
+    });
+
+    // Organizar por posicaoNoQuadro
+    const agrupados = {};
+    servicos.forEach((servico) => {
+      const posicao = servico.posicaoNoQuadro || "default";
+      if (!agrupados[posicao]) agrupados[posicao] = [];
+      agrupados[posicao].push(servico);
+    });
+
+    // Ordenar cada coluna pela ordemVerticalNoQuadro
+    Object.keys(agrupados).forEach((coluna) => {
+      agrupados[coluna].sort((a, b) => {
+        const ordemA = a.ordemVerticalNoQuadro ?? 0;
+        const ordemB = b.ordemVerticalNoQuadro ?? 0;
+        return ordemA - ordemB;
+      });
+    });
+
+    res.json(agrupados);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao carregar quadro Kanban" });
+  }
+});
+
 // Listar todos os serviços
 router.get("/", async (req, res) => {
   try {
