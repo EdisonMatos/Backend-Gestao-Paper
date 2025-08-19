@@ -3,6 +3,43 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+router.get("/prazos", async (req, res) => {
+  try {
+    const servicos = await prisma.servico.findMany({
+      include: { cliente: true },
+    });
+
+    const servicosAtivos = servicos.filter(
+      (s) => !s.dataConclusao && s.posicaoNoQuadro !== "ausentes"
+    );
+
+    const tarefasAtivas = servicosAtivos.filter(
+      (s) => s.dataProximoPrazo && s.posicaoNoQuadro !== "aguardandoCliente"
+    );
+
+    const aguardandoCliente = servicosAtivos.filter(
+      (s) => s.posicaoNoQuadro === "aguardandoCliente"
+    );
+
+    const ausentes = servicos.filter((s) => s.posicaoNoQuadro === "ausentes");
+
+    const finalizados = servicos
+      .filter((s) => s.dataConclusao)
+      .sort((a, b) => new Date(b.dataConclusao) - new Date(a.dataConclusao));
+
+    res.json({
+      servicosAtivos,
+      tarefasAtivas,
+      aguardandoCliente,
+      ausentes,
+      finalizados,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar dashboard" });
+  }
+});
+
 router.get("/counts", async (req, res) => {
   try {
     // Pegar todos os serviços que são null ou backlog
