@@ -3,6 +3,32 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+// Contagem de serviços por setor (turnoDaVez)
+router.get("/counts", async (req, res) => {
+  try {
+    const counts = await prisma.servico.groupBy({
+      by: ["turnoDaVez"],
+      where: {
+        OR: [{ posicaoNoQuadro: null }, { posicaoNoQuadro: "backlog" }],
+      },
+      _count: {
+        _all: true,
+      },
+    });
+
+    // Resposta no formato { suporte: 3, comercial: 1, financeiro: 2 }
+    const result = {};
+    counts.forEach((item) => {
+      result[item.turnoDaVez] = item._count._all;
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao contar serviços" });
+  }
+});
+
 // Listar todos os serviços
 router.get("/", async (req, res) => {
   try {
