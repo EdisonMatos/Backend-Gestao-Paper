@@ -24,20 +24,6 @@ router.get("/counts", async (req, res) => {
       result[s.turnoDaVez]++;
     });
 
-    // Se quiser, garante que setores conhecidos apareçam mesmo com 0
-    const setores = [
-      "dev",
-      "socialmedia",
-      "suporte",
-      "financeiro",
-      "diretoria",
-    ];
-    setores.forEach((setor) => {
-      if (!(setor in result)) {
-        result[setor] = 0;
-      }
-    });
-
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -142,8 +128,7 @@ router.post("/", async (req, res) => {
         deuFeedbackSite,
         feedbackSitePostado,
         deuFeedbackGoogle,
-        // Aqui garantimos que o campo sempre exista
-        posicaoNoQuadro: posicaoNoQuadro ?? null,
+        posicaoNoQuadro,
         complexidade,
         ordemVerticalNoQuadro,
         dataPrazoProjeto,
