@@ -24,6 +24,7 @@ app.use(
 const usuariosRouter = require("./modulos/usuarios");
 const clientesRouter = require("./modulos/clientes");
 const servicosRouter = require("./modulos/servicos");
+const followupsRouter = require("./modulos/followups");
 const comentariosRouter = require("./modulos/comentarios");
 const rotinasRouter = require("./modulos/rotinas");
 const registrosRouter = require("./modulos/registros");
@@ -35,6 +36,7 @@ app.use("/login", authRouter);
 app.use("/usuarios", usuariosRouter);
 app.use("/clientes", clientesRouter);
 app.use("/servicos", servicosRouter);
+app.use("/followups", followupsRouter);
 app.use("/comentarios", comentariosRouter);
 app.use("/rotinas", rotinasRouter);
 app.use("/registros", registrosRouter);

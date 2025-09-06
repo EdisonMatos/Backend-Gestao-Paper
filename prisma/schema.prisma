@@ -62,11 +62,11 @@ model Servico {
   posicaoNoQuadro       String?
   ordemVerticalNoQuadro Float?
 
-  linkDoc          String?
-  linkPreviaVercel String?
-  linkRepoGithub   String?
-  turnoDaVez       String?
-  comentariosTexto String?
+  linkDoc            String?
+  linkPreviaVercel   String?
+  linkRepoGithub     String?
+  turnoDaVez         String?
+  comentariosTexto   String?
 
   deuFeedbackSite       Boolean? @default(false)
   feedbackSitePostado   Boolean? @default(false)
@@ -74,6 +74,26 @@ model Servico {
   feedbackGooglePostado Boolean? @default(false)
 
   comentarios Comentario[]
+  followups   Followup[]
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+model Followup {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  servicoId     String  @db.ObjectId
+  servico       Servico @relation(fields: [servicoId], references: [id])
+  
+  nomeServico   String
+  setor         String
+  empresa       String
+  representante String
+  status        String
+  comentario    String
+  conclusao DateTime?
+  
 
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
