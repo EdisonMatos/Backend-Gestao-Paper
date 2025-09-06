@@ -52,8 +52,7 @@ router.post("/", async (req, res) => {
     !setor ||
     !empresa ||
     !representante ||
-    !status ||
-    !comentario
+    !status
   ) {
     return res.status(400).json({ error: "Campos obrigatórios faltando" });
   }
