@@ -21,6 +21,8 @@ model Usuario {
   tags    String? @default("sem tags")
   obs     String? @default("sem observações")
 
+  registros RegistroUsuarios[]
+
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 }
@@ -41,7 +43,7 @@ model Cliente {
 }
 
 model Servico {
-  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   nome String?
 
   clienteId String  @db.ObjectId
@@ -50,52 +52,45 @@ model Servico {
   status             String?
   statusAtualizadoEm DateTime?
 
-  dataContratacao    DateTime
-  dataInfosColetadas DateTime?
-  dataDocPronto      DateTime?
-  dataEnvioPrevia    DateTime?
-  dataConclusao      DateTime?
-  dataProximoPrazo   DateTime?
-  dataPrazoProjeto   DateTime?
-  complexidade       Float?
-
-  posicaoNoQuadro       String?
+  dataContratacao     DateTime
+  dataInfosColetadas  DateTime?
+  dataDocPronto       DateTime?
+  dataEnvioPrevia     DateTime?
+  dataConclusao       DateTime?
+  dataProximoPrazo    DateTime?
+  dataPrazoProjeto    DateTime?
+  complexidade        Float?
+  posicaoNoQuadro     String?
   ordemVerticalNoQuadro Float?
-
-  linkDoc            String?
-  linkPreviaVercel   String?
-  linkRepoGithub     String?
-  turnoDaVez         String?
-  comentariosTexto   String?
-
+  linkDoc             String?
+  linkPreviaVercel    String?
+  linkRepoGithub      String?
+  turnoDaVez          String?
+  comentariosTexto    String?
   deuFeedbackSite       Boolean? @default(false)
   feedbackSitePostado   Boolean? @default(false)
   deuFeedbackGoogle     Boolean? @default(false)
   feedbackGooglePostado Boolean? @default(false)
-
   comentarios Comentario[]
   followups   Followup[]
-
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @updatedAt
+  criadoEm          DateTime   @default(now())
+  atualizadoEm      DateTime   @updatedAt
 }
 
 model Followup {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  servicoId     String  @db.ObjectId
-  servico       Servico @relation(fields: [servicoId], references: [id])
-  
+  servicoId String  @db.ObjectId
+  servico   Servico @relation(fields: [servicoId], references: [id])
+
   nomeServico   String?
   setor         String?
   empresa       String?
   representante String?
   status        String?
   comentario    String?
-  msg String?
-  conclusao DateTime?
-
-  
+  msg           String?
+  conclusao     DateTime?
 
   criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
@@ -115,7 +110,7 @@ model Comentario {
 }
 
 model Rotina {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   nome         String
   descricao    String
   status       String
@@ -142,4 +137,20 @@ model RegistroRotina {
   rotina   Rotina @relation(fields: [rotinaId], references: [id])
 
   criadoEm DateTime @default(now())
+}
+
+model RegistroUsuarios {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  usuarioId String  @db.ObjectId
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  natureza  String?
+  tipo      String?
+  subtipo   String?
+  descricao String?
+  data      DateTime?
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
 }

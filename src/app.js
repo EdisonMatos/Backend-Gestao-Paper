@@ -22,6 +22,7 @@ app.use(
 );
 
 const usuariosRouter = require("./modulos/usuarios");
+const registrosUsuarios = require("./modulos/registrosusuarios");
 const clientesRouter = require("./modulos/clientes");
 const servicosRouter = require("./modulos/servicos");
 const followupsRouter = require("./modulos/followups");
@@ -34,6 +35,7 @@ app.use(express.json());
 
 app.use("/login", authRouter);
 app.use("/usuarios", usuariosRouter);
+app.use("/registrosusuarios", registrosRouter);
 app.use("/clientes", clientesRouter);
 app.use("/servicos", servicosRouter);
 app.use("/followups", followupsRouter);
