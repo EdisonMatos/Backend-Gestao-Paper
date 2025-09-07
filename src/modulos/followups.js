@@ -44,6 +44,7 @@ router.post("/", async (req, res) => {
     representante,
     status,
     comentario,
+    msg,
   } = req.body;
 
   if (
@@ -52,7 +53,8 @@ router.post("/", async (req, res) => {
     !setor ||
     !empresa ||
     !representante ||
-    !status
+    !status ||
+    !msg
   ) {
     return res.status(400).json({ error: "Campos obrigatórios faltando" });
   }
@@ -67,6 +69,7 @@ router.post("/", async (req, res) => {
         representante,
         status,
         comentario,
+        msg,
       },
     });
     res.status(201).json(followup);
@@ -88,6 +91,7 @@ router.put("/:id", async (req, res) => {
     status,
     comentario,
     conclusao,
+    msg,
   } = req.body;
 
   try {
@@ -107,6 +111,7 @@ router.put("/:id", async (req, res) => {
         empresa,
         representante,
         status,
+        msg,
         comentario,
         conclusao: conclusao ? new Date(conclusao) : undefined,
       },

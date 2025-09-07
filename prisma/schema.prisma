@@ -86,13 +86,15 @@ model Followup {
   servicoId     String  @db.ObjectId
   servico       Servico @relation(fields: [servicoId], references: [id])
   
-  nomeServico   String
-  setor         String
-  empresa       String
-  representante String
-  status        String
-  comentario    String
+  nomeServico   String?
+  setor         String?
+  empresa       String?
+  representante String?
+  status        String?
+  comentario    String?
+  msg String?
   conclusao DateTime?
+
   
 
   criadoEm     DateTime @default(now())
