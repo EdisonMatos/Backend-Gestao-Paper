@@ -47,14 +47,14 @@ router.post("/", async (req, res) => {
     msg,
   } = req.body;
 
+  // CORREÇÃO APLICADA AQUI: A validação de '!msg' foi removida.
   if (
     !servicoId ||
     !nomeServico ||
     !setor ||
     !empresa ||
     !representante ||
-    !status ||
-    !msg
+    !status
   ) {
     return res.status(400).json({ error: "Campos obrigatórios faltando" });
   }
@@ -74,7 +74,7 @@ router.post("/", async (req, res) => {
     });
     res.status(201).json(followup);
   } catch (error) {
-    console.error(error);
+    console.error("Erro detalhado ao criar follow-up:", error);
     res.status(500).json({ error: "Erro ao criar follow-up" });
   }
 });
