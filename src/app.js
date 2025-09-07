@@ -35,7 +35,7 @@ app.use(express.json());
 
 app.use("/login", authRouter);
 app.use("/usuarios", usuariosRouter);
-app.use("/registrosusuarios", registrosRouter);
+app.use("/registrosusuarios", registrosUsuarios);
 app.use("/clientes", clientesRouter);
 app.use("/servicos", servicosRouter);
 app.use("/followups", followupsRouter);
